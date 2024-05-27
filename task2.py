@@ -1,21 +1,24 @@
-def total_salary(path):
+def get_cats_info(path):
+    cats_info = []
     try:
         with open(path, 'r', encoding='utf-8') as file:
-            salaries = []
             for line in file:
-                name, salary = line.strip().split(',')
-                salaries.append(int(salary))
-
-            total = sum(salaries)
-            average = total / len(salaries) if salaries else 0
-            return total, average
+                cat_data = line.strip().split(',')
+                if len(cat_data) == 3:
+                    cat_id, cat_name, cat_age = cat_data
+                    cat_dict = {
+                        "id": cat_id,
+                        "name": cat_name,
+                        "age": cat_age
+                    }
+                    cats_info.append(cat_dict)
     except FileNotFoundError:
-        print(f"Файл {path} не знайдено.")
-        return 0, 0
+        print(f"Файл за шляхом {path} не знайдено.")
     except Exception as e:
-        print(f"Сталася помилка: {e}")
-        return 0, 0
+        print(f"Виникла помилка при читанні файлу: {e}")
 
-path_to_file = "salary.txt"
-total, average = total_salary(path_to_file)
-print(f"Загальна сума заробітної плати: {total}, Середня заробітна плата: {average}")
+    return cats_info
+
+
+cats_info = get_cats_info("cats.txt")
+print(cats_info)
